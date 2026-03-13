@@ -154,6 +154,10 @@ body::before {
   gap: 6px;
   font-size: 12px;
   opacity: 0.9;
+  background: rgba(10, 10, 10, 0.5);
+  padding: 4px 8px;
+  border-radius: 20px;
+  color: #e0e0e0;
 }
 
 .status-dot {
@@ -161,7 +165,7 @@ body::before {
   height: 8px;
   background: var(--primary-color);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-hover);
+  box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-hover), 0 0 0 2px rgba(255,255,255,0.3);
   animation: pulse 2s infinite;
 }
 
