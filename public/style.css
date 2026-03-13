@@ -596,6 +596,20 @@ body::before {
   border: 0;
 }
 
+.message-bubble h1,
+.message-bubble h2,
+.message-bubble h3,
+.message-bubble h4 {
+  margin: 12px 0 8px 0;
+  color: var(--bot-msg-text);
+  line-height: 1.4;
+}
+
+.message-bubble h1 { font-size: 1.4em; }
+.message-bubble h2 { font-size: 1.3em; }
+.message-bubble h3 { font-size: 1.2em; }
+.message-bubble h4 { font-size: 1.1em; }
+
 .message-bubble strong {
   font-weight: 600;
 }

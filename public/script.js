@@ -107,21 +107,37 @@ function parseMarkdown(text) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
   
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Handle headings (####, ###, ##, #)
+  html = html.replace(/####\s+(.+)/g, '<h4>$1</h4>');
+  html = html.replace(/###\s+(.+)/g, '<h3>$1</h3>');
+  html = html.replace(/##\s+(.+)/g, '<h2>$1</h2>');
+  html = html.replace(/#\s+(.+)/g, '<h1>$1</h1>');
   
+  // Handle bold and italic
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
   
+  // Handle code
   html = html.replace(/`(.+?)`/g, '<code>$1</code>');
-  
   html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
   
+  // Handle lists
+  // Process ordered lists
   html = html.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$2</li>');
   html = html.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
   
+  // Process unordered lists
   html = html.replace(/^-\s+(.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>){2,}/s, '<ul>$1</ul>');
   
-  html = html.replace(/\n\n/g, '<br><br>');
+  // Handle line breaks and paragraphs
+  html = html.replace(/\n\n/g, '</p><p>');
   html = html.replace(/\n/g, '<br>');
+  html = html.replace(/^/, '<p>');
+  html = html.replace(/$/, '</p>');
+  
+  // Clean up empty paragraphs
+  html = html.replace(/<p><\/p>/g, '');
   
   return html;
 }
