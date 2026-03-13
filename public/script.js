@@ -7,7 +7,7 @@ const sendBtn = document.getElementById('send-btn');
 const emojiBtn = document.getElementById('emoji-btn');
 
 const userAvatarIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>`;
-const botAvatarIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7V5.73C5.4 5.39 5 4.74 5 4a2 2 0 0 1 2-2h5z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>`;
+const botAvatarIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
 
 let messageCount = 0;
 
@@ -84,7 +84,7 @@ clearBtn.addEventListener('click', function() {
             <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7V5.73C5.4 5.39 5 4.74 5 4a2 2 0 0 1 2-2h5z"/>
           </svg>
         </div>
-        <h2>Welcome to Val AI!</h2>
+        <h2>Welcome to Zodiak AI! ✨</h2>
         <p>Start a conversation by typing a message below.</p>
       </div>
     `;
@@ -193,17 +193,29 @@ function getCurrentTime() {
 }
 
 async function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+    }
+  }
+  
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
   try {
-    await navigator.clipboard.writeText(text);
-  } catch (err) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
+    return true;
+  } catch (err) {
+    document.body.removeChild(textarea);
+    return false;
   }
 }
 
